@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 29492
 
-CMD ["./run_apps.sh"]
+CMD ["./run_app.sh"]
