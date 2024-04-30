@@ -10,7 +10,6 @@ RUN pip install --no-binary=h5py h5py && pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 4549
-EXPOSE 4550
+EXPOSE 29492
 
 CMD ["./run_apps.sh"]
