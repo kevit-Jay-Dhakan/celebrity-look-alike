@@ -22,7 +22,7 @@ class PlatformWebappService:
         col1, col2 = st.columns(2)
         with col1:
             image_predict_helpers.extract_face_from_image(
-                input_image_path, input_image_path, detector_backend='dlib'
+                input_image_path, input_image_path, detector_backend='mtcnn'
             )
             st.image(input_image_path, width=150, caption='Input Image')
         with col2:

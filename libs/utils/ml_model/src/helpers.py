@@ -44,7 +44,7 @@ class ImagePredictHelpers:
         input_image_path: str,
         output_image_path: str,
         target_size: tuple[int, int] = (200, 200),
-        detector_backend: str = 'dlib'
+        detector_backend: str = 'mtcnn'
     ):
         detected_face = DeepFace.extract_faces(
             img_path=input_image_path,
@@ -58,7 +58,7 @@ class ImagePredictHelpers:
     def generate_and_store_embeddings(
         self,
         train_images_path: List[str],
-        detector_backend: str = 'dlib',
+        detector_backend: str = 'mtcnn',
         model_name: str = 'Facenet512'
     ):
         count = 0
@@ -115,7 +115,7 @@ class ImagePredictHelpers:
         try:
             user_features = DeepFace.represent(
                 input_image_path, model_name="Facenet512",
-                detector_backend="dlib"
+                detector_backend="mtcnn"
             )
             user_embeddings = user_features[0]['embedding']
             user_gender = self.get_gender_from_image_path(input_image_path)
@@ -125,7 +125,7 @@ class ImagePredictHelpers:
             ):
                 similarity = DeepFace.verify(
                     user_embeddings, celebrity['embedding'],
-                    model_name="Facenet512", detector_backend="dlib",
+                    model_name="Facenet512", detector_backend="mtcnn",
                     distance_metric="cosine"
                 )
                 if similarity['distance']:

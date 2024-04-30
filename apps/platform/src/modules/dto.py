@@ -24,7 +24,7 @@ class GenerateCelebrityEmbeddingsModel(BaseModel):
         description='Face detector backend',
         example='mtcnn',
         min_length=1,
-        default='dlib'
+        default='mtcnn'
     )
     modelName: str = Field(
         description='Name of model to use for generating embeddings.',
