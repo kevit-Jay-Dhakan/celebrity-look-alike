@@ -9,9 +9,5 @@ if not path.exists(env_path):
 
 config = dotenv_values(env_path)
 
-DATABASE_URI = config.get(
-    'DATABASE_URI', 'mongodb://localhost:27017'
-)
-DATABASE_NAME = config.get(
-    "DATABASE_NAME", 'quick-projects-celebrity-lookalike'
-)
+DATABASE_URI = config.get('DATABASE_URI', 'mongodb://localhost:27017')
+DATABASE_NAME = config.get("DATABASE_NAME", 'celebrity-look-alike')
