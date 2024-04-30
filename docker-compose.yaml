@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0.5
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-apps
+    depends_on:
+      - mongodb
+    ports:
+      - "4549:4549"
+      - "4550:4550"
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/

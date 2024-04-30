@@ -1,0 +1,47 @@
+project_name: 'celebrity-look-a-like'
+repository_urls:
+  - https://github.com/kevit-io-quick-projects/celebrity-look-a-like
+technologies:
+  - python
+on_server_files:
+  static_files: false
+  static_files_path: 'N/A'
+  user_files: true
+  user_files_path: 'libs/utils/ml_model/user_images'
+database:
+  database_used: true
+  is_in_server_db: true
+  database_provider: mongo-db
+  database_name: 'quick-projects-celebrity-lookalike'
+  database_hosting_provider: 'N/A'
+  database_host_url: 'N/A'
+programming_languages:
+  - python
+ecosystem_file_path: ''
+stakeholders:
+  responsible_person: 'Jay Dhakan'
+  team_lead: 'Parth Mansata'
+  devops_person: 'Shekhar Tayde'
+  associated_founder: 'Amit Bhimani'
+timeframe:
+  first_deployed_on: '2024-03-29'
+  timeline_in_months: 6
+cloud_services_used:
+  - service_name: 'N/A'
+    id: 'N/A'
+    notes: 'N/A'
+in_server_services:
+  - service_name: 'docker'
+  - service_name: 'mongo-db'
+server_config_files:
+  nginx_file_name: 'qp-celebrity-look-a-like.conf'
+  is_cd_implemented: false
+  alloted_ports:
+    - 4549
+    - 4550
+  associated_dns:
+    - 'https://quick-projects-celebrity-look-a-like-fe.gradlesol.com/'
+    - 'https://quick-projects-celebrity-look-a-like.gradlesol.com/'
+  ssh_key_file_names:
+    - 'quick-projects-celebrity-look-a-like'
+    - 'quick-projects-celebrity-look-a-like.pub'
