@@ -14,3 +14,7 @@ INPUT_IMAGE_DOWNLOAD_PATH = config.get(
 makedirs(INPUT_IMAGE_DOWNLOAD_PATH, exist_ok=True)
 TRAIN_IMAGES_FOLDER_PATH = 'libs/utils/ml_model/train_images'
 makedirs(TRAIN_IMAGES_FOLDER_PATH, exist_ok=True)
+VECTOR_DB_PATH = config.get(
+    "VECTOR_DB_PATH", 'libs/utils/ml_model/vector_db'
+)
+makedirs(VECTOR_DB_PATH, exist_ok=True)

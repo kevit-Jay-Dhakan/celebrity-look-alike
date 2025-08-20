@@ -161,4 +161,5 @@ cython_debug/
 temp
 libs/utils/ml_model/train_images
 libs/utils/ml_model/user_images
+libs/utils/ml_model/vector_db
 temp/celebs_dataset.parquet
