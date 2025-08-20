@@ -13,7 +13,7 @@ from libs.utils.ml_model.src.config import (
     TRAIN_IMAGES_FOLDER_PATH
 )
 from libs.utils.ml_model.src.helpers import image_predict_helpers
-from libs.utils.ml_model.src.repository import celebrities_embeddings_repository
+from libs.utils.ml_model.src import vector_store
 
 
 class PlatformService:
@@ -82,14 +82,10 @@ class PlatformService:
 
     @staticmethod
     def get_celeb_names_from_database():
-        celeb_names = list(
-            celebrities_embeddings_repository.find(
-                {}, {'_id': 0, 'name': 1}
-            )
-        )
+        celeb_names = vector_store.list_celeb_names()
         return {
             'totalCelebCount': len(celeb_names),
-            'celebNames': [doc['name'] for doc in celeb_names]
+            'celebNames': celeb_names
         }
 
     @staticmethod
@@ -102,11 +98,9 @@ class PlatformService:
             for celeb_name in celeb_names
             if path.exists(join(TRAIN_IMAGES_FOLDER_PATH, f'{celeb_name}.jpg'))
         ]
-        result = celebrities_embeddings_repository.delete_many(
-            {'name': {'$in': celeb_names}}
-        )
+        vector_store.delete_embeddings(celeb_names)
         return (
-            f"Successfully deleted embeddings of {result.deleted_count} celebs "
+            f"Successfully deleted embeddings of {len(celeb_names)} celebs "
             f"from database."
         )
 

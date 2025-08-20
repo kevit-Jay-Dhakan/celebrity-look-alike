@@ -1,6 +1,4 @@
-import itertools
 import uuid
-from operator import itemgetter
 from os import makedirs
 from os.path import join
 from shutil import rmtree
@@ -17,7 +15,7 @@ from libs.utils.ml_model.src.config import (
     INPUT_IMAGE_DOWNLOAD_PATH,
     TRAIN_IMAGES_FOLDER_PATH
 )
-from libs.utils.ml_model.src.repository import celebrities_embeddings_repository
+from libs.utils.ml_model.src import vector_store
 
 
 class ImagePredictHelpers:
@@ -66,9 +64,7 @@ class ImagePredictHelpers:
         for image_path in train_images_path:
             try:
                 celebrity_name = image_path.split('/')[-1].split('.')[0]
-                if celebrities_embeddings_repository.find_one(
-                    {'name': celebrity_name}
-                ):
+                if vector_store.embedding_exists(celebrity_name):
                     print('Celebrity image already present in database.')
                     repeat_celeb_count += 1
                     continue
@@ -83,14 +79,13 @@ class ImagePredictHelpers:
                     (len(celebrity_features) != 0) and
                     ('embedding' in celebrity_features[0])
                 ):
-                    celebrities_embeddings_repository.insert_one(
+                    vector_store.upsert_embedding(
+                        celebrity_name,
+                        celebrity_features[0]['embedding'],
                         {
-                            'name': celebrity_name,
                             'dominantGender': dominant_gender,
-                            'embedding': celebrity_features[0]['embedding'],
                             'facialArea': celebrity_features[0]['facial_area'],
-                            'faceConfidence': celebrity_features[0][
-                                'face_confidence'],
+                            'faceConfidence': celebrity_features[0]['face_confidence'],
                             'modelUsed': model_name
                         }
                     )
@@ -119,21 +114,10 @@ class ImagePredictHelpers:
             )
             user_embeddings = user_features[0]['embedding']
             user_gender = self.get_gender_from_image_path(input_image_path)
-            similarities = dict()
-            for celebrity in celebrities_embeddings_repository.find(
-                {'dominantGender': user_gender}
-            ):
-                similarity = DeepFace.verify(
-                    user_embeddings, celebrity['embedding'],
-                    model_name="Facenet512", detector_backend="mtcnn",
-                    distance_metric="cosine"
-                )
-                if similarity['distance']:
-                    similarities[celebrity['name']] = similarity['distance']
-            similarities = dict(
-                sorted(similarities.items(), key=itemgetter(1))
+            similarities = vector_store.query_similar(
+                user_embeddings, top_k=5, gender=user_gender
             )
-            return dict(itertools.islice(similarities.items(), 5))
+            return similarities
         except Exception as error:
             print(error)
             raise Exception("Failed to get your celebrity lookalike.")
@@ -210,5 +194,3 @@ class ImagePredictHelpers:
 
 
 image_predict_helpers = ImagePredictHelpers()
-if __name__ == '__main__':
-    docs = list(celebrities_embeddings_repository.find({}, {}))

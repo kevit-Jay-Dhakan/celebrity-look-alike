@@ -1,5 +1,12 @@
 #!/bin/bash
+set -e
 
-export PYTHONPATH=$PYTHONPATH:pwd
+# Ensure repository root is on the Python path
+export PYTHONPATH="$PYTHONPATH:$(pwd)"
 
-python3 apps/platform_web/src/app.py
+# Launch FastAPI backend in the background
+python apps/platform/src/app.py &
+
+# Start the Streamlit web interface
+python apps/platform_web/src/app.py
+

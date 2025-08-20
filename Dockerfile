@@ -10,6 +10,7 @@ RUN pip install --no-binary=h5py h5py && pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 29492
+# Expose API and web ports
+EXPOSE 4549 4550
 
 CMD ["./run_app.sh"]
